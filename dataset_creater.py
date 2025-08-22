@@ -21,3 +21,30 @@ def insertorupdate(ID,Name,age):
         conn.execute("INSERT INTO STUDENT(ID,Name,Age) VALUES(?,?,?)", (ID, Name, age))
     conn.commit()
     conn.close() 
+    
+# insert the user defined values in the table 
+ID  = input('Enter ID: ')
+Name = input('Enter Name: ')
+age = input('Enter Age: ')  
+
+insertorupdate(ID, Name, age)
+
+#detect face in web camrea coding 
+sampleNum = 0 
+while(True):
+    ret,img = cam.read() # open the camera
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # convert to gray scale used to increase the accuracy
+    faces = faceDetect.detectMultiScale(gray, 1.3, 5) # detect faces, 5 is the minNeighbors and 1.3 is the scaleFactor
+    for (x,y,w,h) in faces:
+        sampleNum = sampleNum + 1
+        cv2.imwrite("dataset/User." + str(ID) + '.' + str(sampleNum) + ".jpg", gray[y:y+h, x:x+w])
+        cv2.rectangle(img, (x,y), (x+w, y+h), (255,0,0), 2)  # draw rectangle around the face to show face is being detected
+        cv2.waitKey(100)    # wait for 100ms
+    cv2.imshow("Face", img)  # show the image with rectangle
+    cv2.waitKey(1)  # wait for 1ms
+    if sampleNum > 20:  # take 20 samples and then stop
+        break  #if sampleNum > 20:  # if 20 samples are taken, stop
+    
+cv2.release()  # release the camera    
+cv2.destroyAllWindows()  # close all windows    
+
