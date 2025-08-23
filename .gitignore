@@ -10,3 +10,7 @@ __pycache__/
 
 # Ignore other temporary files
 *.log
+
+# Ignore dataset folder
+dataset/
+

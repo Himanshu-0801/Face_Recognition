@@ -16,16 +16,16 @@ def insertorupdate(ID,Name,age):
         isRecordExist = 1
     if isRecordExist == 1:
         cmd = ("UPDATE STUDENT SET Name=? WHERE ID=?", (Name, ID))
-        cmd = ("UPDATE STUDENT SET  Age=? WHERE ID=?", (age, ID))
+        cmd = ("UPDATE STUDENT SET age=? WHERE ID=?", (age, ID))
     else: # if record does not exists
-        conn.execute("INSERT INTO STUDENT(ID,Name,Age) VALUES(?,?,?)", (ID, Name, age))
+        conn.execute("INSERT INTO STUDENT(ID,Name,age) VALUES(?,?,?)", (ID, Name, age))
     conn.commit()
     conn.close() 
     
 # insert the user defined values in the table 
 ID  = input('Enter ID: ')
 Name = input('Enter Name: ')
-age = input('Enter Age: ')  
+age = input('Enter age: ')  
 
 insertorupdate(ID, Name, age)
 
@@ -44,7 +44,7 @@ while(True):
     cv2.waitKey(1)  # wait for 1ms
     if sampleNum > 20:  # take 20 samples and then stop
         break  #if sampleNum > 20:  # if 20 samples are taken, stop
-    
-cv2.release()  # release the camera    
-cv2.destroyAllWindows()  # close all windows    
+
+cam.release()  # release the camera
+cv2.destroyAllWindows()  # close all windows
 
