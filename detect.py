@@ -19,21 +19,27 @@ def getProfile(id):
     conn.close()
     return profile
 
+
 while True:
-    ret,img =cam.read() # read the image from the camera
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # convert the image to grayscale   
-    faces = facedetect.detectMultiScale(gray, 1.3, 5) # detect the faces in the image
+    ret, img = cam.read()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = facedetect.detectMultiScale(gray, 1.3, 5)
+
     for (x,y,w,h) in faces: 
         cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
         id, conf = recognizer.predict(gray[y:y+h,x:x+w])
         profile = getProfile(id)
-        if(profile != None):
-            cv2.putText(img, "Name: " + str(profile[1]), (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
-            cv2.putText(img, "Age: " + str(profile[2]), (x, y+h+60 ), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
+        if profile is not None:
+            print(profile)  # <-- This will show details in the terminal
             
-    cv2.imshow("Face",img)
-    if cv2.waitKey(1)==ord('q'): # wait for the user to quit
+            cv2.putText(img, f"Name: {profile[1]}", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
+            cv2.putText(img, f"Age: {profile[2]}", (x, y+h+60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
+
+    cv2.imshow("Face", img)
+
+    # Quit when 'q' is pressed
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-cam.release() # release the camera
-cv2.destroyAllWindows() # close all windows
- 
+
+cam.release()
+cv2.destroyAllWindows()
