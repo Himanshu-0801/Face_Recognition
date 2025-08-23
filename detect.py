@@ -20,6 +20,8 @@ def getProfile(id):
     return profile
 
 
+shown_ids = set()  # keep track of IDs already printed
+
 while True:
     ret, img = cam.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -30,7 +32,9 @@ while True:
         id, conf = recognizer.predict(gray[y:y+h,x:x+w])
         profile = getProfile(id)
         if profile is not None:
-            print(profile)  # <-- This will show details in the terminal
+            if id not in shown_ids:
+                print(profile)
+                shown_ids.add(id)
             
             cv2.putText(img, f"Name: {profile[1]}", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
             cv2.putText(img, f"Age: {profile[2]}", (x, y+h+60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
