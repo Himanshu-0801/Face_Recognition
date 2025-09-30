@@ -1,0 +1,4 @@
+opencv-python
+numpy
+pillow
+sqlite3   # (built-in with Python, but you can mention usage in README)
